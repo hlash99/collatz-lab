@@ -190,6 +190,14 @@
       <li>Does it only bound complexity? C(n_k) ≤ C(n₀)+O(log k) is free and insufficient.</li>
     </ul>
   </div>
+
+  <div class="insight">
+    <h3>7 · Round two (a cross-model dialogue): the rotation factor and the coupling boundary</h3>
+    <p><b>Three more candidate mechanisms tested, three exact autopsies.</b> "Negative curvature" (long bad runs arithmetically suppressed): across 3,000 random 256-bit seeds, upward excursions match the iid coin-flip model exactly — P(orbit ever climbs ≥ x bits) ≈ 2^(−x), and the Cramér equation t^(log₂3) = 2t−1 has root t = 2 <i>only for multiplier 3</i> (measured tail slope −1.14 vs −1 predicted; mean longest bad run 8.53 vs 8.57 iid). No conspiracy in either direction. A residue-graph approach mod 2^k·3^m collapses to an identity: the next odd number is ≡ (−1)^v₂ (mod 3) — the entire 3-adic side is deterministically slaved to the division sequence (0 violations in 30,053 steps) and carries no independent constraint.</p>
+    <p><b>The headroom autopsy became a theorem.</b> A proposed "binary headroom" Lyapunov functional h = 1 − n/2^bits (distance to the next power of two — an MSB quantity) was predicted to drift down for 3n+1 and up for 5n+1. Measured over 1.27M odd steps: E[Δ] = +0.0001 for both maps, flat in v₂ — dead by its proposer's own criterion. Reason: the shell coordinate x = frac(log₂ n) evolves as x′ = x + log₂3 + log₂(1+1/(3n)) (mod 1), and the division count, being an integer, <i>drops out of the fractional part entirely</i>. The top of the number is a rigid irrational rotation, independent of the carries (verified to 1.5×10⁻¹³ over a million steps).</p>
+    <p><b>The factorization.</b> To O(1/n), the Syracuse map splits into two independent exactly-solvable factors: a zero-entropy rotation by log₂3 on the mantissa circle (the Benford factor — Kontorovich–Miller 2005, Lagarias–Soundararajan) and a maximal-entropy full shift on trailing bits (Terras, Tao), coupled only by ε = log₂(1+1/(3n)). Around a cycle, Σε = a − c·log₂3 — so the Baker/continued-fraction cycle bounds are exactly lower bounds on accumulated coupling over closed orbits. Along open orbits the accumulated coupling converges (every term is < 2⁻⁷¹ for any surviving counterexample) while the bit-walk fluctuates like √k, so no Baker-style bound can exist for escaping trajectories.</p>
+    <p><b>The boundary in one sentence:</b> the constants 2 and 3 can currently be exploited only where an orbit closes — and the conjecture lives entirely in orbits that don't.</p>
+  </div>
 </section>
 
 <footer>
