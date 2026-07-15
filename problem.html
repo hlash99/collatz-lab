@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The coding-map regularity program · collatz-lab</title>
+<style>
+  :root{--bg:#0a141f;--surface:#121f30;--line:rgba(255,255,255,.08);--ink:#eaf2fc;--muted:#8fa6bd;--accent:#3ec9c4;--violet:#9085e9;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.65;font-size:15.5px}
+  .wrap{max-width:860px;margin:0 auto;padding:36px 20px 60px}
+  h1{font-size:26px;margin:6px 0 4px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:26px}
+  h2{font-size:17px;color:var(--accent);margin:28px 0 8px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:14px 0}
+  .q{border-left:3px solid var(--violet);padding-left:14px;margin:14px 0}
+  .q b{color:var(--violet)}
+  code{background:rgba(255,255,255,.07);padding:1px 6px;border-radius:6px;font-size:13.5px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .muted{color:var(--muted);font-size:13.5px}
+  ul{margin:8px 0;padding-left:22px}
+  li{margin:5px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="muted"><a href="./">← collatz-lab</a></p>
+  <h1>The coding-map regularity program</h1>
+  <p class="sub">A standalone problem sheet in symbolic dynamics and 2-adic analysis, extracted from a
+  three-model adversarial research session (July 2026). Deliberately <b>not</b> equivalent to the Collatz
+  conjecture: every question below is answerable with existing mathematics, and any answer sharpens the
+  structural map around the conjecture.</p>
+
+  <div class="card">
+    <h2 style="margin-top:0">Setup</h2>
+    <p>Let <code>T(x) = x/2</code> (x even), <code>(3x+1)/2</code> (x odd) on the 2-adic integers ℤ₂. The
+    <b>parity-vector map</b> Q sends x to the sequence (T^k(x) mod 2)<sub>k≥0</sub> ∈ {0,1}<sup>ℕ</sup> ≅ ℤ₂.
+    Terras: the first N parities depend only on x mod 2<sup>N</sup>, and every length-N word occurs for exactly
+    one residue class — so Q is a bijection at every finite level and a homeomorphism of ℤ₂ (Lagarias 1985),
+    conjugating T to the shift. Equivalently, in Syracuse form, a <b>division script</b> (a₀, a₁, …) with
+    partial sums A<sub>j</sub> determines its unique 2-adic seed via the classical inverse transform
+    <code>z = −Σ 2^(A_j) · 3^(−j−1)</code> (2-adically convergent; Rozier 2019, Lemma 1 — "a well-known
+    expression"). Give script space the ultrametric <code>d(s,t) = 2^(−first disagreement)</code>, measured
+    either in T-time (parity symbols) or Syracuse time (odd steps).</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">What is already known</h2>
+    <ul>
+      <li>Q is a measure-preserving homeomorphism of ℤ₂; T is conjugate to the full 2-shift (Lagarias 1985).</li>
+      <li>The conjugacy map Φ and its inverse are <b>nowhere differentiable</b> on ℤ₂, and Φ mod 2ⁿ is a
+      permutation whose cycle structure is computed (Bernstein–Lagarias, <i>Canad. J. Math.</i> 1996).</li>
+      <li>A plane (Euclidean) embedding of the parity-sequence correspondence exhibits <b>affine
+      self-similarity</b> via functional equations (Rozier, INTEGERS 2019).</li>
+      <li>Drift classes are dimension-understood: the set of z whose scripts have prescribed odd-density is a
+      Besicovitch–Eggleston set; the subcritical (divergence-candidate) set has Hausdorff dimension
+      H₂(1/log₂3) ≈ 0.949956.</li>
+      <li>The magnitude coordinate is nearly a rigid rotation: an explicit near-conjugacy of the Collatz map to
+      the circle rotation by log₆3 with error O(1/x) appeared in arXiv:2601.04289 (Jan 2026); the Syracuse-time
+      variant (rotation by log₂3 on frac(log₂ n), division counts dropping out exactly) was verified
+      independently in this project to 10⁻¹³ over 10⁶ steps.</li>
+      <li>Recent combinatorics of parity vectors: Rozier–Terracol (arXiv:2502.00948) and Niu
+      (arXiv:2605.13886) on paradoxical sequences in the accelerated map.</li>
+      <li>Machine-checked foundations (this project, Lean 4 + mathlib, no <code>sorry</code>): the unrolled
+      orbit identity, Böhm–Sontacchi cycle equation, the sign dichotomy (subcritical cycles have negative
+      seeds), mod-3 slaving, and the carry theorem's arithmetic core —
+      <a href="https://github.com/hlash99/collatz-lab/blob/main/CollatzNight.lean">CollatzNight.lean</a>.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">The open questions</h2>
+    <div class="q"><b>Q1 — Moduli of continuity under time change.</b> In T-time, Q is an isometry-like
+    bijection of cylinders. Under the Syracuse reparametrization (odd steps only, with the division counts as
+    letters), determine the exact worst-case and almost-sure moduli of continuity of the coding map and its
+    inverse. The a.e. behavior is governed by the geometric(1/2) law of division counts; the worst case is
+    controlled by the extremal scripts (all-ones ↔ seeds near −1). Sharp Hölder exponents in the mixed
+    (Syracuse-ultrametric → 2-adic) setting appear to be unrecorded.</div>
+    <div class="q"><b>Q2 — Images of structured subshifts.</b> Characterize Q⁻¹ of natural subshifts of
+    script space: bounded-gap scripts, Sturmian scripts, subshifts of finite type of prescribed density. For
+    each: Hausdorff dimension of the image (B–E gives the full-shift-with-density case; SFT images should
+    follow from Gibbs/thermodynamic formalism), closure, and — the arithmetically loaded question — whether
+    the image meets ℤ<sub>&gt;0</sub>. The bounded-gap subcritical case is the honest core of the
+    "eliminate divergent scripts" reduction: quasi-periodic structure puts it closest to Diophantine reach.</div>
+    <div class="q"><b>Q3 — Rationality.</b> Determine the image of ℚ ∩ ℤ₂ under Q. Eventually periodic
+    scripts ↔ rational seeds with the explicit Böhm–Sontacchi formula (machine-checked here); the converse —
+    whether rational seeds can generate aperiodic scripts — is precisely Lagarias's periodicity question and
+    is open. Any partial result (e.g., for denominators in a fixed residue family, via the 3n+v
+    correspondence) would be new.</div>
+    <div class="q"><b>Q4 — Prescribed drift, arithmetic refinement.</b> Within a fixed B–E drift class,
+    describe the arithmetic structure of the rational points: effective height lower bounds for rationals
+    whose scripts have subcritical prefixes of length N (the growth bound u<sub>N</sub> &gt;
+    (u₀+2v/3)·2^(S_N) proved here is the first-order version; sharpen and make it uniform in v).</div>
+    <div class="q"><b>Q5 — The multifractal spectrum of the Euclidean embedding.</b> Rozier's functional
+    equations define a self-affine object; compute its full multifractal spectrum and identify the spectrum's
+    endpoints with the extremal drift classes of Q4. This would unify the dimension picture with the
+    self-similarity picture.</div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Why this is a good problem sheet</h2>
+    <p>None of Q1–Q5 is equivalent to Collatz; all are attackable with current tools (thermodynamic
+    formalism, ultrametric analysis, continued-fraction/Ostrowski machinery for the rotation factor, effective
+    Diophantine approximation for Q4). Each answer hardens the structural map: Q1–Q2 quantify the coding
+    bottleneck, Q3–Q4 are exactly where integrality enters, and Q5 packages the geometry. The session's
+    verified starting points — identities, dichotomies, dimension value, growth bound, and the Lean
+    formalizations — are all in this repository.</p>
+    <p class="muted">Provenance: drafted from the closing deliverables of a Claude / ChatGPT / Gemini
+    adversarial exchange, 2026-07-14/15; every claim above is labeled known (with source) or
+    project-verified. Contact: this page's repository.</p>
+  </div>
+</div>
+</body>
+</html>
