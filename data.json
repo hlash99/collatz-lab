@@ -1,13 +1,13 @@
 {
-  "updated": "2026-07-14T18:00:00Z",
+  "updated": "2026-07-15T02:30:00Z",
   "cols": 2,
   "stats": [
     {"v": "−0.415", "l": "bits per odd step · 3n+1 drift"},
-    {"v": "+0.322", "l": "bits per odd step · 5n+1 razor"}
+    {"v": "sign(2^A−3^p)", "l": "sorts cycles: subcritical ⇒ negative"}
   ],
   "bullets": [
-    "Exact theorem: v₂(3n+1) = trailing-bit match between n and 2-adic −1/3",
-    "Any division pattern is programmable — one residue class mod 2^(Σk+1)",
-    "Past the seed horizon, carries are statistically geometric(1/2): mean 2.007, 38k samples"
+    "New: sign dichotomy — every subcritical periodic script solves to a negative rational; the impostors −1, −5, −17 explained",
+    "Syracuse ≈ (rotation by log₂3 on the mantissa) × (full shift on trailing bits); the conjecture is the vanishing O(1/n) coupling",
+    "Exact theorem: v₂(3n+1) = trailing-bit match between n and 2-adic −1/3"
   ]
 }
